@@ -1,0 +1,54 @@
+# Ignore build artifacts
+target/
+Cargo.lock
+
+# Ignore development files
+.git/
+.gitignore
+*.md
+docs/
+.env
+.env.*
+
+# Ignore test data
+dev-data/
+test-data/
+*.db
+*.db-*
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Ignore node modules (if any)
+node_modules/
+
+# Ignore coverage reports
+coverage/
+*.profraw
+
+# Ignore benchmarks
+benches/results/
+
+# Keep only production configs in Docker
+config/development.toml
+config/miner.toml
+!config/production.toml
+!config/default.toml

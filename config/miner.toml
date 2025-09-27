@@ -1,0 +1,55 @@
+# Mining Node Configuration
+# Configuration optimized for dedicated mining nodes
+
+[node]
+name = "miner-blockchain-node"
+data_dir = "/var/lib/blockchain-miner"
+genesis_block_reward = 50.0
+
+[database]
+url = "sqlite:/var/lib/blockchain-miner/blockchain.db"
+max_connections = 15
+connection_timeout_secs = 30
+enable_migrations = true
+
+[mining]
+difficulty = 6
+block_reward = 12.5
+max_block_time_secs = 600  # 10 minutes
+difficulty_adjustment_interval = 2016  # blocks
+target_block_time_secs = 600  # 10 minutes
+enabled = true  # Mining enabled for dedicated miners
+
+[network]
+listen_port = 9000
+bootstrap_peers = [
+    "mainnet-peer1.blockchain.com:9000",
+    "mainnet-peer2.blockchain.com:9000"
+]
+max_peers = 50
+sync_interval_secs = 30  # More frequent sync for miners
+connection_timeout_secs = 15
+enabled = true
+
+[api]
+enabled = true
+bind_address = "127.0.0.1"  # Only local access for mining node
+port = 8080
+cors_enabled = false  # Disable CORS for security
+cors_origins = []
+rate_limit_requests_per_minute = 30
+request_timeout_secs = 30
+
+[contracts]
+enabled = false  # Disable contracts on mining nodes for performance
+max_memory_mb = 8
+execution_timeout_secs = 15
+max_gas_limit = 500000
+gas_price = 0.001
+
+[logging]
+level = "info"
+format = "json"
+
+[logging.output]
+both = { path = "/var/log/blockchain/miner.log" }

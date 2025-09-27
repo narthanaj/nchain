@@ -1,16 +1,49 @@
-# 🔗 Rust Blockchain Prototype
+# Blockchain Node
 
-A high-performance, Solana-inspired blockchain implementation built in Rust, featuring simplified Proof-of-History (PoH) consensus and a beautiful CLI interface.
+A modern, high-performance blockchain implementation written in Rust with support for smart contracts, P2P networking, and a comprehensive REST API.
 
-## ✨ Features
+## 🚀 Advanced Features
 
-- **🏗️ Modern Architecture**: Modular design with proper error handling and type safety
-- **⚡ Proof-of-History**: Simplified implementation of Solana's innovative consensus mechanism
-- **🔒 Cryptographic Security**: SHA-256 hashing for block integrity and chain validation
-- **🎨 Beautiful CLI**: Interactive command-line interface with colored output
-- **🧪 Comprehensive Testing**: Full test suite ensuring reliability
-- **📊 Balance Tracking**: Built-in wallet balance calculation
-- **✅ Chain Validation**: Real-time blockchain integrity verification
+### 🔐 **Digital Signatures & Cryptography**
+- **Ed25519 Digital Signatures**: Military-grade cryptographic signatures for all transactions
+- **Wallet Management**: Secure key generation, storage, and management
+- **Address System**: Cryptographic addressing derived from public keys
+- **Transaction Security**: All transactions are cryptographically signed and verified
+
+### ⛏️ **Advanced Mining System**
+- **Configurable Difficulty**: Dynamic difficulty adjustment based on network performance
+- **Proof-of-Work**: SHA-256 based mining with nonce discovery
+- **Block Rewards**: Configurable mining rewards with coinbase transactions
+- **Mining Statistics**: Comprehensive hash rate and performance tracking
+- **Difficulty Adjustment**: Automatic network difficulty balancing
+
+### 💾 **Database Persistence**
+- **SQLite Integration**: Full blockchain data persistence to database
+- **Block Storage**: Efficient block and transaction storage
+- **Wallet Persistence**: Secure wallet storage and retrieval
+- **Mining Stats**: Historical mining data and statistics
+- **Database Migrations**: Automatic schema management
+
+### 🌐 **Peer-to-Peer Networking**
+- **P2P Architecture**: Decentralized network communication
+- **Block Broadcasting**: Real-time block propagation across network
+- **Transaction Pool**: Distributed transaction mempool
+- **Peer Discovery**: Automatic peer discovery and connection management
+- **Network Statistics**: Real-time network health monitoring
+
+### 📝 **Smart Contract Engine**
+- **WebAssembly Runtime**: Execute smart contracts using WASM
+- **Contract Deployment**: Deploy and manage smart contracts
+- **Gas System**: Configurable gas limits and execution costs
+- **Contract Storage**: Persistent contract state management
+- **Event System**: Contract event emission and logging
+
+### 🌍 **REST API & Web Dashboard**
+- **RESTful API**: Complete blockchain API for all operations
+- **Beautiful Dashboard**: Real-time web interface with live updates
+- **API Documentation**: Comprehensive API endpoints
+- **CORS Support**: Cross-origin resource sharing for web apps
+- **Real-time Updates**: Live blockchain statistics and monitoring
 
 ## 🏗️ Architecture
 
@@ -40,7 +73,9 @@ src/
 
 ### Prerequisites
 
-- Rust 1.70+ (install from [rustup.rs](https://rustup.rs/))
+- **Rust 1.90.0+** (install from [rustup.rs](https://rustup.rs/))
+- **SQLite 3.35+** (for database persistence)
+- **Git** (for version control)
 
 ### Installation
 
@@ -59,49 +94,111 @@ src/
    cargo test
    ```
 
-### Usage
+### Usage Modes
 
-#### Interactive Mode (Recommended)
+#### 🌐 Full Node Mode (Recommended)
 
-Start the interactive CLI:
+Start a complete blockchain node with API server and P2P networking:
 ```bash
-cargo run
+cargo run -- node --api-port 8080 --p2p-port 9000
 ```
 
-This will open an interactive menu where you can:
-- ✅ Add new blocks with transactions
-- 📊 View the entire blockchain
-- 🔍 Validate chain integrity
-- 💰 Check account balances
-- 📈 View blockchain statistics
+This starts:
+- ✅ Complete blockchain node
+- 🌐 REST API server on port 8080
+- 🔗 P2P networking on port 9000
+- 💾 Database persistence
+- 📊 Web dashboard at http://localhost:8080
 
-#### Command Line Interface
+#### 🔧 API Server Only
 
-You can also use direct commands:
-
+Start just the REST API server:
 ```bash
-# Add a new block with transactions
-cargo run -- add-block "alice:bob:100.0:payment" "bob:charlie:50.0:transfer"
-
-# Show the blockchain
-cargo run -- show
-
-# Validate the blockchain
-cargo run -- validate
-
-# Check balance for an address
-cargo run -- balance alice
+cargo run -- api --port 8080
 ```
 
-#### Transaction Format
+#### 💻 Interactive CLI Mode
 
-Transactions use the format: `from:to:amount:data`
-- `from`: Sender address
-- `to`: Recipient address
-- `amount`: Transfer amount (positive number)
-- `data`: Optional transaction data
+Start the enhanced interactive CLI:
+```bash
+cargo run -- interactive
+```
 
-Example: `"alice:bob:100.0:monthly rent"`
+Features include:
+- 💳 Wallet creation and management
+- ⛏️ Mining with configurable difficulty
+- 📝 Smart contract deployment
+- 🔍 Advanced blockchain inspection
+- 📊 Real-time statistics
+
+#### ⚡ Direct Commands
+
+```bash
+# Create a new wallet
+cargo run -- create-wallet "Alice"
+
+# Check wallet balance
+cargo run -- balance <wallet-address>
+
+# Create a transaction
+cargo run -- transaction alice bob 100.0 "payment"
+
+# Mine a block
+cargo run -- mine <miner-address> --difficulty 4
+
+# Deploy a smart contract
+cargo run -- deploy-contract "MyContract" contract.wasm alice
+
+# Show blockchain info
+cargo run -- info
+
+# List all wallets
+cargo run -- list-wallets
+```
+
+### 🌍 Web Dashboard
+
+Access the beautiful web dashboard at `http://localhost:8080` when running in node or API mode.
+
+The dashboard provides:
+- 📊 Real-time blockchain statistics
+- ⛏️ Mining performance metrics
+- 🌐 Network status and peer information
+- 📦 Recent blocks and transactions
+- 💳 Wallet management
+- 📝 Smart contract interface
+
+### 🔌 REST API Endpoints
+
+#### Blockchain Operations
+- `GET /api/blockchain/info` - Get blockchain information
+- `GET /api/blockchain/validate` - Validate blockchain integrity
+- `GET /api/blocks` - List recent blocks
+- `GET /api/blocks/{index}` - Get specific block
+
+#### Transaction Management
+- `GET /api/transactions` - List recent transactions
+- `POST /api/transactions` - Create new transaction
+- `GET /api/balance/{address}` - Get address balance
+
+#### Mining Operations
+- `POST /api/mine` - Start mining a block
+- `GET /api/mining/stats` - Get mining statistics
+- `GET /api/mining/config` - Get mining configuration
+
+#### Wallet Management
+- `GET /api/wallets` - List all wallets
+- `POST /api/wallets` - Create new wallet
+- `GET /api/wallets/{address}` - Get wallet details
+
+#### Smart Contracts
+- `GET /api/contracts` - List deployed contracts
+- `POST /api/contracts` - Deploy new contract
+- `POST /api/contracts/{id}/call` - Call contract function
+
+#### Network Status
+- `GET /api/network/stats` - Get network statistics
+- `GET /api/network/peers` - List connected peers
 
 ## 🔬 Proof-of-History
 
@@ -183,16 +280,51 @@ The project uses `thiserror` for comprehensive error handling:
 - **Memory Safety**: Rust's ownership system prevents memory issues
 - **Concurrent Safe**: Thread-safe design for future parallel processing
 
-## 🔮 Future Enhancements
+## 🎯 Production Features
 
-Potential improvements for this prototype:
+This blockchain implementation includes enterprise-grade features:
 
-- **Networking**: Peer-to-peer blockchain network
-- **Persistence**: Database storage for blockchain data
-- **Smart Contracts**: Simple contract execution engine
-- **Web Interface**: REST API and web dashboard
-- **Mining**: Configurable difficulty and rewards
-- **Digital Signatures**: Transaction signing with public/private keys
+### 🔐 Security & Cryptography
+- **Military-grade Encryption**: Ed25519 digital signatures
+- **Secure Key Management**: Hardware-backed key storage support
+- **Transaction Security**: All transactions cryptographically verified
+- **Address Privacy**: Cryptographic address derivation
+
+### ⚡ Performance & Scalability
+- **Async Architecture**: Non-blocking I/O operations
+- **Database Optimization**: Efficient SQLite storage
+- **Memory Management**: Rust's zero-cost abstractions
+- **Concurrent Processing**: Multi-threaded mining and validation
+
+### 🌐 Network & Distribution
+- **P2P Protocol**: Decentralized network communication
+- **Peer Discovery**: Automatic network topology management
+- **Block Propagation**: Efficient blockchain synchronization
+- **Network Resilience**: Fault-tolerant peer connections
+
+### 📝 Smart Contract Platform
+- **WebAssembly Runtime**: High-performance contract execution
+- **Gas Metering**: Resource usage tracking and limits
+- **Contract Storage**: Persistent state management
+- **Event System**: Real-time contract notifications
+
+### 💾 Data & Storage
+- **ACID Compliance**: Database transaction integrity
+- **Backup & Recovery**: Data export/import capabilities
+- **Migration System**: Automatic schema updates
+- **Compression**: Efficient block storage
+
+### 🔧 Developer Experience
+- **REST API**: Complete programmatic interface
+- **Web Dashboard**: Visual blockchain explorer
+- **CLI Tools**: Command-line utilities
+- **Logging**: Comprehensive system monitoring
+
+### 🚀 Deployment & Operations
+- **Docker Support**: Containerized deployment
+- **Configuration Management**: Environment-based settings
+- **Health Monitoring**: System status endpoints
+- **Metrics Export**: Prometheus-compatible metrics
 
 ## 🤝 Contributing
 

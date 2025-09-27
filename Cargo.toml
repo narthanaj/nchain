@@ -1,14 +1,101 @@
 [package]
 name = "blockchain"
-version = "0.1.0"
-edition = "2024"
+version = "2.0.0"
+edition = "2021"
+rust-version = "1.90.0"
+authors = ["Blockchain Team"]
+description = "A modern, high-performance blockchain implementation in Rust with smart contracts, P2P networking, and REST API"
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/yourusername/blockchain"
+repository = "https://github.com/yourusername/blockchain"
+keywords = ["blockchain", "cryptocurrency", "smart-contracts", "p2p", "web3"]
+categories = ["cryptography", "network-programming", "web-programming"]
 
 [dependencies]
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-chrono = { version = "0.4", features = ["serde"] }
-sha2 = "0.10"
-clap = { version = "4.0", features = ["derive"] }
-anyhow = "1.0"
-thiserror = "1.0"
-colored = "2.0"
+# Serialization
+serde = { version = "1.0.215", features = ["derive"] }
+serde_json = "1.0.133"
+
+# Date and time
+chrono = { version = "0.4.38", features = ["serde"] }
+
+# Hashing
+sha2 = "0.10.8"
+
+# CLI
+clap = { version = "4.5.21", features = ["derive"] }
+
+# Error handling
+anyhow = "1.0.93"
+thiserror = "1.0.69"
+
+# Terminal colors
+colored = "2.1.0"
+
+# Cryptography
+ed25519-dalek = { version = "2.1.1", features = ["serde"] }
+rand = "0.8.5"
+hex = "0.4.3"
+
+# Database
+sqlx = { version = "0.8.2", features = ["runtime-tokio-rustls", "sqlite", "chrono", "migrate"] }
+
+# Async runtime and networking
+tokio = { version = "1.41.1", features = ["full"] }
+libp2p = { version = "0.54.1", features = ["identify", "ping", "mdns", "noise", "yamux", "tcp", "websocket", "request-response", "kad", "gossipsub"] }
+futures = "0.3.31"
+
+# Web API framework
+axum = { version = "0.7.9", features = ["macros"] }
+tower = "0.5.1"
+tower-http = { version = "0.6.2", features = ["cors"] }
+hyper = { version = "1.5.0", features = ["full"] }
+
+# Smart Contracts (WebAssembly)
+wasmtime = "27.0.0"
+
+# Configuration management
+config = "0.14.1"
+toml = "0.8.19"
+
+# Logging and tracing
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter", "json"] }
+
+# Additional utilities
+uuid = { version = "1.11.0", features = ["v4", "serde"] }
+base64 = "0.22.1"
+
+[dev-dependencies]
+# Testing utilities
+tempfile = "3.14.0"
+criterion = { version = "0.5.1", features = ["html_reports"] }
+proptest = "1.5.0"
+mockall = "0.13.1"
+
+[profile.release]
+# Optimizations for release builds
+opt-level = 3
+debug = false
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+# Development profile
+opt-level = 0
+debug = true
+split-debuginfo = "unpacked"
+
+[profile.test]
+# Test profile
+opt-level = 1
+debug = true
+
+[profile.bench]
+# Benchmark profile
+opt-level = 3
+debug = false
+lto = true

@@ -14,6 +14,8 @@ pub struct Block {
     pub hash: String,
     pub poh_hash: String,
     pub nonce: u64,
+    pub difficulty: u32,
+    pub miner: Option<String>,
 }
 
 impl Block {
@@ -23,6 +25,11 @@ impl Block {
         previous_hash: String,
         poh_hash: String,
     ) -> Self {
+        let miner = transactions
+            .iter()
+            .find(|tx| tx.is_coinbase())
+            .map(|tx| tx.to.clone());
+
         let mut block = Block {
             index,
             timestamp: Utc::now(),
@@ -31,6 +38,36 @@ impl Block {
             hash: String::new(),
             poh_hash,
             nonce: 0,
+            difficulty: 4,
+            miner,
+        };
+
+        block.hash = block.calculate_hash();
+        block
+    }
+
+    pub fn with_difficulty(
+        index: u64,
+        transactions: Vec<Transaction>,
+        previous_hash: String,
+        poh_hash: String,
+        difficulty: u32,
+    ) -> Self {
+        let miner = transactions
+            .iter()
+            .find(|tx| tx.is_coinbase())
+            .map(|tx| tx.to.clone());
+
+        let mut block = Block {
+            index,
+            timestamp: Utc::now(),
+            transactions,
+            previous_hash,
+            hash: String::new(),
+            poh_hash,
+            nonce: 0,
+            difficulty,
+            miner,
         };
 
         block.hash = block.calculate_hash();
@@ -47,6 +84,8 @@ impl Block {
             hash: String::new(),
             poh_hash: String::new(),
             nonce: 0,
+            difficulty: 1,
+            miner: None,
         };
 
         block.hash = block.calculate_hash();

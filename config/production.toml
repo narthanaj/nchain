@@ -1,0 +1,56 @@
+# Production Configuration
+# Configuration optimized for production deployment
+
+[node]
+name = "prod-blockchain-node"
+data_dir = "/var/lib/blockchain"
+genesis_block_reward = 50.0
+
+[database]
+url = "sqlite:/var/lib/blockchain/blockchain.db"
+max_connections = 20
+connection_timeout_secs = 30
+enable_migrations = false  # Migrations should be run manually in production
+
+[mining]
+difficulty = 6  # Higher difficulty for production
+block_reward = 12.5
+max_block_time_secs = 600  # 10 minutes
+difficulty_adjustment_interval = 2016  # blocks
+target_block_time_secs = 600  # 10 minutes
+enabled = false  # Enable mining nodes separately
+
+[network]
+listen_port = 9000
+bootstrap_peers = [
+    "mainnet-peer1.blockchain.com:9000",
+    "mainnet-peer2.blockchain.com:9000",
+    "mainnet-peer3.blockchain.com:9000"
+]
+max_peers = 100
+sync_interval_secs = 60
+connection_timeout_secs = 30
+enabled = true
+
+[api]
+enabled = true
+bind_address = "0.0.0.0"  # Bind to all interfaces in production
+port = 8080
+cors_enabled = true
+cors_origins = ["https://yourdomain.com", "https://api.yourdomain.com"]
+rate_limit_requests_per_minute = 60  # Stricter rate limiting
+request_timeout_secs = 30
+
+[contracts]
+enabled = true
+max_memory_mb = 16
+execution_timeout_secs = 30
+max_gas_limit = 1000000
+gas_price = 0.001
+
+[logging]
+level = "warn"
+format = "json"
+
+[logging.output]
+file = { path = "/var/log/blockchain/blockchain.log" }

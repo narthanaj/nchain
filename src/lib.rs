@@ -4,12 +4,25 @@ pub mod poh;
 pub mod transaction;
 pub mod errors;
 pub mod cli;
+pub mod crypto;
+pub mod mining;
+pub mod storage;
+pub mod network;
+pub mod contracts;
+pub mod api;
+pub mod config;
 
 pub use block::Block;
 pub use blockchain::Blockchain;
 pub use poh::PohRecorder;
 pub use transaction::Transaction;
 pub use errors::{BlockchainError, Result};
+pub use crypto::{Wallet, KeyPair, PublicKey, DigitalSignature};
+pub use mining::{Miner, MiningConfig, MiningStats};
+pub use storage::BlockchainStorage;
+pub use contracts::{SmartContract, ContractEngine};
+pub use api::ApiState;
+pub use config::BlockchainConfig;
 
 #[cfg(test)]
 mod tests {
