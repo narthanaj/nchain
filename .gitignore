@@ -1,2 +1,121 @@
-/target
+# Rust build artifacts
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.envrc
+
+# Claude Code configuration
 .claude/
+
+# Dependencies
+/vendor/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+blockchain.db*
+/data/
+*.db-shm
+*.db-wal
+
+# Log files
+*.log
+/logs/
+/var/log/blockchain/
+
+# Environment and configuration
+.env
+.env.local
+.env.production
+.env.development
+.env.test
+config/local.toml
+config/secrets.toml
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+.docker/
+
+# Backup files
+*.backup
+*.bak
+*.orig
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/
+.cache/
+
+# Operating system files
+Thumbs.db
+Desktop.ini
+
+# Blockchain specific
+/blocks/
+/keys/
+*.key
+*.pem
+*.crt
+/wallets/
+genesis.json
+
+# Mining and performance data
+/mining_stats/
+*.bench
+/performance/
+
+# Smart contract artifacts
+/contracts/build/
+/contracts/target/
+*.wasm.map
+
+# Network and P2P data
+/p2p/
+/peers/
+node_data/
+
+# Documentation build
+/docs/build/
+/book/
+
+# Coverage reports
+tarpaulin-report.html
+coverage/
+*.profraw
+
+# Security sensitive files
+*.private
+*.secret
+credentials.json
+auth_tokens.txt
+
+# Package manager files
+package-lock.json
+yarn.lock
+
+# macOS
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# Windows
+ehthumbs.db
+ehthumbs_vista.db

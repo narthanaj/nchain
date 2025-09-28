@@ -19,6 +19,11 @@ export BLOCKCHAIN_CONFIG=config/development.toml
 # Create development data directory
 mkdir -p dev-data logs
 
+# Debugging: create file and check permissions
+touch dev-data/blockchain.db
+ls -ld dev-data
+ls -l dev-data/blockchain.db
+
 # Check if development config exists
 if [ ! -f config/development.toml ]; then
     echo "Development config not found, using default config"

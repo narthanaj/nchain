@@ -36,7 +36,8 @@ impl BlockchainStorage {
     }
 
     pub async fn create_file<P: AsRef<Path>>(path: P) -> Result<Self> {
-        let url = format!("sqlite:{}", path.as_ref().display());
+        let path_str = path.as_ref().to_str().unwrap();
+        let url = format!("{}?mode=rwc", path_str);
         Self::new(&url).await
     }
 

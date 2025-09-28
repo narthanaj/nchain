@@ -1,6 +1,7 @@
 use anyhow::Result;
 use clap::{Parser, Subcommand};
 use std::collections::HashMap;
+use std::path::Path;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use tracing::{info, Level};
@@ -220,7 +221,14 @@ async fn main() -> Result<()> {
 }
 
 async fn start_full_node(api_port: u16, p2p_port: u16, database_path: &str) -> Result<()> {
-    let storage = BlockchainStorage::create_file(database_path).await?;
+    let path = Path::new(database_path);
+    let absolute_path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        std::env::current_dir()?.join(path)
+    };
+
+    let storage = BlockchainStorage::create_file(&absolute_path).await?;
     let blockchain = Arc::new(RwLock::new(Blockchain::new()?));
     let contract_engine = Arc::new(RwLock::new(ContractEngine::new()?));
     let mining_stats = Arc::new(RwLock::new(
@@ -274,7 +282,14 @@ async fn start_full_node(api_port: u16, p2p_port: u16, database_path: &str) -> R
 }
 
 async fn start_api_server(port: u16, database_path: &str) -> Result<()> {
-    let storage = BlockchainStorage::create_file(database_path).await?;
+    let path = Path::new(database_path);
+    let absolute_path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        std::env::current_dir()?.join(path)
+    };
+
+    let storage = BlockchainStorage::create_file(&absolute_path).await?;
     let blockchain = Arc::new(RwLock::new(Blockchain::new()?));
     let contract_engine = Arc::new(RwLock::new(ContractEngine::new()?));
     let mining_stats = Arc::new(RwLock::new(

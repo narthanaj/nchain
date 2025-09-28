@@ -1,5 +1,5 @@
 # Multi-stage build for optimal image size and security
-FROM rust:1.90.0-slim as builder
+FROM rust:1.90.0-slim AS builder
 
 # Install build dependencies
 RUN apt-get update && apt-get install -y \
@@ -36,6 +36,7 @@ RUN apt-get update && apt-get install -y \
     libssl3 \
     libsqlite3-0 \
     ca-certificates \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Create blockchain user and group
@@ -73,7 +74,7 @@ EXPOSE 8080 9000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8080/api/v1/blockchain/info || exit 1
+    CMD curl -f http://localhost:8080/api/blockchain/info || exit 1
 
 # Environment variables
 ENV BLOCKCHAIN_CONFIG=/etc/blockchain/blockchain.toml

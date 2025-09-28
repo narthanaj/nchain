@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # Main blockchain node
+  blockchain-node:
+    build: .
+    container_name: blockchain-node
+    ports:
+      - "8080:8080"  # API port
+      - "9000:9000"  # P2P port
+    environment:
+      - RUST_LOG=info
+      - BLOCKCHAIN_CONFIG=/etc/blockchain/blockchain.toml
+    volumes:
+      - blockchain-data:/var/lib/blockchain/data
+      - blockchain-logs:/var/lib/blockchain/logs
+      - ./config/production.toml:/etc/blockchain/blockchain.toml:ro
+    networks:
+      - blockchain-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/blockchain/info"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  blockchain-data:
+    driver: local
+  blockchain-logs:
+    driver: local
+
+networks:
+  blockchain-network:
+    driver: bridge
